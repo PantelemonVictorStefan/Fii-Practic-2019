@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/app.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/App.js"></script>
+    <script src="~/Scripts/Object.js"></script>
+    <script src="~/Scripts/Component.js"></script>
+    <script src="~/Scripts/ComponentRenderer.js"></script>
+    <script src="~/Scripts/Viewport.js"></script>
+    <script src="~/Scripts/FieldComponent.js"></script>
+    <script src="~/Scripts/FieldComponentRenderer.js"></script>
+    <script src="~/Scripts/TextboxComponent.js"></script>
+    <script src="~/Scripts/TextboxComponentRenderer.js"></script>
+</head>
+<body>
+    <script>
+        App.init();
+        var panel = new Frm.Component();
+        Frm.Viewport.setComponent(panel);
+        var textbox = new Frm.TextboxComponent({
+            isMandatory: true,
+            labelText: 'Username',
+            maxLength: 20
+        });
+        panel.append(textbox);
+    </script>
+</body>
+</html>

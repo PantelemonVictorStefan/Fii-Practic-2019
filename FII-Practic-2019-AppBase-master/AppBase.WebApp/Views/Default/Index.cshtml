@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/app.css" rel="stylesheet" type="text/css" />
+    <link href="~/Style/style.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/App.js"></script>
+    <script src="~/Scripts/Object.js"></script>
+    <script src="~/Scripts/Component.js"></script>
+    <script src="~/Scripts/ComponentRenderer.js"></script>
+    <script src="~/Scripts/Viewport.js"></script>
+    <script src="~/Scripts/FieldComponent.js"></script>
+    <script src="~/Scripts/FieldComponentRenderer.js"></script>
+    <script src="~/Scripts/TextboxComponent.js"></script>
+    <script src="~/Scripts/TextboxComponentRenderer.js"></script>
+
+    <link href="~/Style/usersStyle.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <ul>
+        <li><a class="active" href="#home" style="color: rgb(0, 0, 0);" onclick="removeAll() ">Home</a></li>
+        <li><a href="#users" onclick="displayComponent('users')">Users</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+    </ul>
+    <div id="content">
+        <div id="users">
+           
+
+            <div class="w3-container">
+                <h2>Users</h2>
+                
+                <ul class="w3-ul w3-card-4" id="listOfUsers">
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    
+    <script>
+        var userComponent = document.getElementById('users');
+        var components = {
+            "users": userComponent
+        };
+
+
+        var componentInit = {
+            "users": initUsers
+        };
+
+        removeAll();
+
+
+        function processUsers(response) {
+            listOfusers = JSON.parse(response);
+            let person = listOfusers[0];
+
+
+            //document.body.innerHTML = markup;
+            document.getElementById("listOfUsers").innerHTML = "";
+            for (let i = 0; i < listOfusers.length; i++) {
+                //console.log(listOfusers[i]);
+                listOfusers[i]["thumbnail"] = "https://randomuser.me/api/portraits/thumb/men/" + i + ".jpg";
+                person = listOfusers[i];
+                const markup = `
+             <div class="person">
+                <li class="w3-bar" id="user">
+                        <img src="${person.thumbnail}" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+                        <div class="w3-bar-item">
+                            <span class="w3-large" id="username"> ${person.userName}</span><br>
+                            <span id="email">${person.email}</span>
+                        </div>
+                    </li>
+             </div>
+            `;
+                document.getElementById("listOfUsers").innerHTML += markup;
+            }
+        }
+
+        function initUsers()
+        {
+            console.log("reloaded users");
+            getRequest("http://localhost:6070/Api/Data/User/SelectAll", processUsers);
+        }
+
+
+        function displayComponent(componentName) {
+            removeAll();
+            document.getElementById("content").appendChild(components[componentName]);
+            componentInit[componentName]();
+            
+
+
+        }
+
+        function removeAll() {
+            //var elem = document.getElementById('dummy');
+            for (i in Object.keys(components)) {
+                let key = Object.keys(components)[i];
+                if (document.getElementById(key) != null)
+                    //components[key].parentNode.removeChild(components[key]);
+                    document.getElementById(key).remove();
+            }
+        }
+
+
+        function getRequest(url,callback) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    //document.getElementById("demo").innerHTML = this.responseText;
+                    callback(this.response);
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+
+       /* App.init();
+        var panel = new Frm.Component();
+        Frm.Viewport.setComponent(panel);
+        var textbox = new Frm.TextboxComponent({
+            isMandatory: true,
+            labelText: 'Username',
+            maxLength: 20
+        });
+        panel.append(textbox);*/
+    </script>
+</body>
+</html>

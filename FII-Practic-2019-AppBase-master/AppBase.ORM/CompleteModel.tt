@@ -1,0 +1,32 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Configuration" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="$(TargetPath)" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Configuration" #>
+<#@ import namespace="AppBase.ORM" #>
+<#@ output extension=".json" #>
+<#
+var modelPath = Path.Combine(
+    Host.ResolveAssemblyReference("$(ProjectDir)"),
+    "Model.json"
+    );
+var model = Model.Load(modelPath);
+
+var configPath = Path.Combine(
+    Host.ResolveAssemblyReference("$(ProjectDir)"),
+    "App.config"
+    );
+var configFileMap = new ExeConfigurationFileMap();
+configFileMap.ExeConfigFilename = configPath;
+var config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
+var connStr = config.ConnectionStrings
+    .ConnectionStrings["AppBase"].ConnectionString;
+
+ModelManager.Complete(model, connStr);
+#>
+<#= model.SerializeObject() #>

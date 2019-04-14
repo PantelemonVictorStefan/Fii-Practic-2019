@@ -1,0 +1,325 @@
+﻿{
+  "entities": [
+    {
+      "tableName": "Users",
+      "name": "User",
+      "fields": [
+        {
+          "fieldName": "Roles",
+          "relation": "UserInRole.UserInRoles_Roles"
+        },
+        {
+          "fieldName": "UserName",
+          "columnName": "UserName",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 500
+        },
+        {
+          "fieldName": "Email",
+          "columnName": "Email",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "columnSize": 500
+        },
+        {
+          "fieldName": "FirstName",
+          "columnName": "FirstName",
+          "columnType": "nvarchar",
+          "isNullable": true,
+          "columnSize": 120
+        },
+        {
+          "fieldName": "LastName",
+          "columnName": "LastName",
+          "columnType": "nvarchar",
+          "isNullable": true,
+          "columnSize": 120
+        },
+        {
+          "fieldName": "BirthDate",
+          "columnName": "BirthDate",
+          "columnType": "datetime",
+          "isNullable": true,
+          "columnSize": 8
+        }
+      ]
+    },
+    {
+      "tableName": "UserInRoles",
+      "name": "UserInRole",
+      "fields": [
+        {
+          "fieldName": "User",
+          "relation": "UserInRole.UserInRoles_Users"
+        },
+        {
+          "fieldName": "Role",
+          "relation": "UserInRole.UserInRoles_Roles"
+        },
+        {
+          "fieldName": "UserName",
+          "columnName": "UserName",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 500
+        },
+        {
+          "fieldName": "RoleName",
+          "columnName": "RoleName",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 100
+        }
+      ],
+      "relations": [
+        {
+          "name": "UserInRoles_Users",
+          "entityName": "User",
+          "fields": [
+            {
+              "parentColumnName": "UserName",
+              "childColumnName": "UserName"
+            }
+          ]
+        },
+        {
+          "name": "UserInRoles_Roles",
+          "entityName": "Role",
+          "fields": [
+            {
+              "parentColumnName": "RoleName",
+              "childColumnName": "RoleName"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableName": "Roles",
+      "name": "Role",
+      "fields": [
+        {
+          "fieldName": "Users",
+          "relation": "UserInRole.UserInRoles_Users"
+        },
+        {
+          "fieldName": "Rights",
+          "relation": "Right.Rights_Roles"
+        },
+        {
+          "fieldName": "RoleName",
+          "columnName": "RoleName",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 100
+        }
+      ]
+    },
+    {
+      "tableName": "Rights",
+      "name": "Right",
+      "fields": [
+        {
+          "fieldName": "Function",
+          "relation": "Right.Rights_Functions"
+        },
+        {
+          "fieldName": "Role",
+          "relation": "Right.Rights_Roles"
+        },
+        {
+          "fieldName": "RoleName",
+          "columnName": "RoleName",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 100
+        },
+        {
+          "fieldName": "FunctionName",
+          "columnName": "FunctionName",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 240
+        },
+        {
+          "fieldName": "IsEnabled",
+          "columnName": "IsEnabled",
+          "columnType": "bit",
+          "isNullable": false,
+          "columnSize": 1
+        }
+      ],
+      "relations": [
+        {
+          "name": "Rights_Roles",
+          "entityName": "Role",
+          "fields": [
+            {
+              "parentColumnName": "RoleName",
+              "childColumnName": "RoleName"
+            }
+          ]
+        },
+        {
+          "name": "Rights_Functions",
+          "entityName": "Function",
+          "fields": [
+            {
+              "parentColumnName": "FunctionName",
+              "childColumnName": "FunctionName"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableName": "Tabs",
+      "name": "Tab",
+      "fields": [
+        {
+          "fieldName": "Rows",
+          "relation": "TabRow.TabRows_Tabs"
+        },
+        {
+          "fieldName": "Cod",
+          "columnName": "Cod",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 240
+        },
+        {
+          "fieldName": "Description",
+          "columnName": "Description",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "columnSize": 240
+        }
+      ]
+    },
+    {
+      "tableName": "TabRows",
+      "name": "TabRow",
+      "fields": [
+        {
+          "fieldName": "Tab",
+          "relation": "TabRow.TabRows_Tabs"
+        },
+        {
+          "fieldName": "Detail",
+          "relation": "TabRow.TabRows_TabRowDetails"
+        },
+        {
+          "fieldName": "CodTab",
+          "columnName": "CodTab",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 240
+        },
+        {
+          "fieldName": "Cod",
+          "columnName": "Cod",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 240
+        },
+        {
+          "fieldName": "Description",
+          "columnName": "Description",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "columnSize": 240
+        }
+      ],
+      "relations": [
+        {
+          "name": "TabRows_Tabs",
+          "entityName": "Tab",
+          "fields": [
+            {
+              "parentColumnName": "CodTab",
+              "childColumnName": "Cod"
+            }
+          ]
+        },
+        {
+          "name": "TabRows_TabRowDetails",
+          "entityName": "TabRowDetail",
+          "fields": [
+            {
+              "parentColumnName": "CodTab",
+              "childColumnName": "CodTab"
+            },
+            {
+              "parentColumnName": "Cod",
+              "childColumnName": "Cod"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tableName": "TabRowDetails",
+      "name": "TabRowDetail",
+      "fields": [
+        {
+          "fieldName": "TabRow",
+          "relation": "TabRow.TabRows_TabRowDetails"
+        },
+        {
+          "fieldName": "CodTab",
+          "columnName": "CodTab",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 240
+        },
+        {
+          "fieldName": "Cod",
+          "columnName": "Cod",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 240
+        },
+        {
+          "fieldName": "Pos",
+          "columnName": "Pos",
+          "columnType": "int",
+          "isNullable": true,
+          "columnSize": 4
+        },
+        {
+          "fieldName": "ExtraInfo",
+          "columnName": "ExtraInfo",
+          "columnType": "nvarchar",
+          "isNullable": true,
+          "columnSize": -1
+        }
+      ]
+    },
+    {
+      "tableName": "Functions",
+      "name": "Function",
+      "fields": [
+        {
+          "fieldName": "FunctionName",
+          "columnName": "FunctionName",
+          "columnType": "nvarchar",
+          "isNullable": false,
+          "isKey": true,
+          "columnSize": 240
+        }
+      ]
+    }
+  ]
+}

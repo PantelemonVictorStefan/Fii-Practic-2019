@@ -1,0 +1,9 @@
+body {
+}
+
+.field {
+}
+
+.field.invalid input {
+    border-color: red;
+}
